@@ -1,0 +1,138 @@
+# Smithery Registry — hive-mcp-abtest
+# https://smithery.ai
+
+startCommand:
+  type: http
+  configSchema:
+    type: object
+    properties: {}
+    required: []
+  url: https://hive-mcp-abtest.onrender.com/mcp
+
+name: hive-mcp-abtest
+displayName: hive-mcp-abtest — A/B experiment runner
+version: "1.0.0"
+description: >
+  A/B experiment runner for the A2A network. Deterministic bucket assignment
+  by hash(agent_did, experiment_id), conversion recording, and a two-proportion
+  Z-test stat-sig calculator. $0.001 per assignment, $0.005 per conversion via
+  x402 on Base USDC. Inbound only.
+
+author:
+  name: Steve Rotzin
+  email: steve@thehiveryiq.com
+  url: https://www.thehiveryiq.com
+
+license: MIT
+homepage: https://github.com/srotzin/hive-mcp-abtest
+repository:
+  type: git
+  url: https://github.com/srotzin/hive-mcp-abtest
+
+transport: streamable-http
+endpoint: https://hive-mcp-abtest.onrender.com/mcp
+protocol: "2024-11-05"
+
+categories:
+  - experimentation
+  - agent-to-agent
+  - analytics
+
+tags:
+  - mcp
+  - hive
+  - abtest
+  - ab-testing
+  - experiment
+  - z-test
+  - x402
+  - 402
+  - ai-agents
+  - a2a
+  - usdc
+  - base-l2
+
+tools:
+  - name: abtest_assign
+    description: >
+      Assign an agent DID to a variant for an experiment. Bucket is
+      deterministic via SHA-256(experiment_id, agent_did) modulo total weight,
+      sticky across calls. $0.001 per assignment via x402.
+    inputs:
+      - name: experiment_id
+        type: string
+        required: true
+        description: "Stable experiment identifier."
+      - name: agent_did
+        type: string
+        required: true
+        description: "DID or any opaque agent identifier."
+      - name: variants
+        type: array
+        required: false
+        description: "Optional. Items: { id, weight? }. Required only on first call when the experiment has not been registered."
+  - name: abtest_record_conversion
+    description: >
+      Record a conversion event for an agent that was previously assigned.
+      Variant is read from the assignment, not supplied by caller.
+      $0.005 per event via x402.
+    inputs:
+      - name: experiment_id
+        type: string
+        required: true
+      - name: agent_did
+        type: string
+        required: true
+      - name: metric
+        type: string
+        required: false
+        description: "Optional metric label. Default 'conversion'."
+      - name: value
+        type: number
+        required: false
+        description: "Optional numeric value. Default 1."
+  - name: abtest_results
+    description: >
+      Return per-variant samples, conversions, conversion rate, and a
+      two-proportion Z-test on the first two variants. Free, read-only.
+    inputs:
+      - name: experiment_id
+        type: string
+        required: true
+      - name: metric
+        type: string
+        required: false
+        description: "Optional metric label. Default 'conversion'."
+
+runtime:
+  type: node
+  version: ">=18"
+  command: node server.js
+  env:
+    - name: PORT
+      default: "3000"
+      required: false
+    - name: ENABLE
+      default: "true"
+      required: false
+    - name: WALLET_ADDRESS
+      default: "0x15184bf50b3d3f52b60434f8942b7d52f2eb436e"
+      required: false
+    - name: PRICE_ASSIGN_USDC
+      default: "0.001"
+      required: false
+    - name: PRICE_CONVERT_USDC
+      default: "0.005"
+      required: false
+    - name: DB_PATH
+      default: "/tmp/abtest.db"
+      required: false
+
+brand:
+  color: "#C08D23"
+  name: "Hive Civilization gold (Pantone 1245 C)"
+
+policy:
+  mode: inbound_only
+  custody: never
+  role: experimentation

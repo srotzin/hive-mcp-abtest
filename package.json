@@ -1,0 +1,43 @@
+{
+  "name": "hive-mcp-abtest",
+  "version": "1.0.0",
+  "description": "A/B experiment runner for the A2A network. Deterministic DID-hash bucket assignment, conversion recording, and Z-test statistical-significance calculator. Inbound-only MCP shim with x402 micropayments.",
+  "type": "module",
+  "main": "server.js",
+  "bin": {
+    "hive-mcp-abtest": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "mcp",
+    "hive",
+    "abtest",
+    "ab-testing",
+    "experiment",
+    "z-test",
+    "x402",
+    "402",
+    "ai-agents",
+    "a2a",
+    "usdc",
+    "base-l2"
+  ],
+  "author": "Steve Rotzin <steve@thehiveryiq.com> (https://www.thehiveryiq.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/srotzin/hive-mcp-abtest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srotzin/hive-mcp-abtest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "ethers": "^6.13.2",
+    "express": "^4.19.2"
+  }
+}
