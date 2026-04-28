@@ -33,7 +33,7 @@
     "url": "https://github.com/srotzin/hive-mcp-abtest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "better-sqlite3": "^11.3.0",
