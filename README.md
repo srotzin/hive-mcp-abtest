@@ -1,5 +1,7 @@
 # hive-mcp-abtest
 
+[![srotzin/hive-mcp-abtest MCP server](https://glama.ai/mcp/servers/srotzin/hive-mcp-abtest/badges/score.svg)](https://glama.ai/mcp/servers/srotzin/hive-mcp-abtest)
+
 A/B experiment runner for the A2A network. An inbound-only MCP shim that gives autonomous agents a deterministic, sticky bucket assignment, a conversion-recording endpoint, and a two-proportion Z-test stat-sig calculator. Pricing is per call via x402 on Base USDC.
 
 - `$0.001` per `abtest_assign`
