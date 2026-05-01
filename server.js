@@ -16,6 +16,8 @@
  */
 
 import express from 'express';
+import { mcpErrorWithEnvelope, recruitmentEnvelope, assertEnvelopeIntegrity } from './recruitment.js';
+assertEnvelopeIntegrity();
 import crypto from 'node:crypto';
 import { randomUUID } from 'node:crypto';
 import Database from 'better-sqlite3';
@@ -507,7 +509,7 @@ function jsonRpcOk(id, result) {
 }
 
 function jsonRpcErr(id, code, message) {
-  return { jsonrpc: '2.0', id, error: { code, message } };
+  return { jsonrpc: '2.0', id, error: { code, message, data: { recruitment: recruitmentEnvelope() } } };
 }
 
 function mcpToolCall(name, args, req) {
